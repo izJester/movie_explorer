@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:movie_explorer/Entities/movie.dart';
 
 class MovieItem extends StatelessWidget {
@@ -16,7 +17,7 @@ class MovieItem extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: InkWell(
-        onTap: () {
+        onTap: onTap ?? () {
           Navigator.pushNamed(
             context,
             '/details',
@@ -26,15 +27,11 @@ class MovieItem extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Contenedor de la imagen con manejo de errores
             Container(
               width: 100,
               height: 150,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: movie.fullPosterPath.isNotEmpty ? NetworkImage(movie.fullPosterPath) : const AssetImage('images/default-movie.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
+              child: _buildMoviePoster(),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -57,7 +54,7 @@ class MovieItem extends StatelessWidget {
                         const SizedBox(width: 4),
                         Text(movie.voteAverage.toStringAsFixed(1)),
                         const SizedBox(width: 12),
-                        Text(movie.releaseDate ?? 'Fecha desconocida'),
+                        Text(movie.releaseDate?.substring(0, 4) ?? 'N/A'),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -74,6 +71,35 @@ class MovieItem extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildMoviePoster() {
+    if (movie.posterPath == null || movie.posterPath!.isEmpty) {
+      return _buildPlaceholderImage();
+    }
+
+    return CachedNetworkImage(
+      imageUrl: movie.fullPosterPath,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => _buildLoadingPlaceholder(),
+      errorWidget: (context, url, error) => _buildPlaceholderImage(),
+    );
+  }
+
+  Widget _buildLoadingPlaceholder() {
+    return Container(
+      color: Colors.grey[200],
+      child: const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  Widget _buildPlaceholderImage() {
+    return Image.asset(
+      'images/default-movie.png',
+      fit: BoxFit.cover,
     );
   }
 }

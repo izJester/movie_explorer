@@ -39,6 +39,10 @@ dependencies:
   http: ^1.3.0
   flutter_dotenv: ^5.2.1
   flutter_launcher_icons: ^0.14.3
+  path_provider: ^2.1.5
+  connectivity_plus: ^6.1.3
+  path: ^1.9.1
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
@@ -63,7 +67,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - .env
     - images/default-movie.png
     - images/icons/app_icon.png
 
