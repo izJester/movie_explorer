@@ -19,9 +19,15 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  provider: ^6.1.4       # Gestión de estado
-  http: ^1.3.0           # Peticiones HTTP
-  flutter_dotenv: ^5.2.1 # Variables de Entorno
+  sqflite: ^2.4.2
+  provider: ^6.1.4
+  http: ^1.3.0
+  flutter_dotenv: ^5.2.1
+  flutter_launcher_icons: ^0.14.3
+  path_provider: ^2.1.5
+  connectivity_plus: ^6.1.3
+  path: ^1.9.1
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
@@ -64,8 +70,4 @@ flutter run
 - Clonas el repositorio en un nuevo entorno
 - Ejecutas la App como si estuvieras desarrollando en local
 
-## 🧪 Testing
-
-```bash
-flutter test
 ```
