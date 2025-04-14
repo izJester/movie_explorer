@@ -69,5 +69,3 @@ flutter run
 - Te diriges a idx.google.com
 - Clonas el repositorio en un nuevo entorno
 - Ejecutas la App como si estuvieras desarrollando en local
-
-```
