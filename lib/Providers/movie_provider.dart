@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:movie_explorer/Entities/movie.dart';
 
@@ -16,6 +17,12 @@ class MovieProvider extends ChangeNotifier {
   bool isOffline = false;
   
   static Database? _database;
+
+  // Método para obtener la API key desde las variables de entorno
+  String get _apiKey => dotenv.env['TMDB_API_KEY'] ?? '';
+  
+  // Método para obtener la URL base desde las variables de entorno
+  String get _baseUrl => dotenv.env['TMDB_BASE_URL'] ?? 'https://api.themoviedb.org/3';
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -97,14 +104,14 @@ class MovieProvider extends ChangeNotifier {
 
   Future<void> _fetchMoviesFromApi({bool loadMore = false}) async {
     final url = Uri.parse(
-      'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=$currentPage',
+      '$_baseUrl/movie/now_playing?language=en-US&page=$currentPage',
     );
 
-    final response = await http.get(
+     final response = await http.get(
       url,
       headers: {
         'accept': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NDZkMmFjN2NmYmIxOGFiNWU1YjFjOTBmYWM3Y2FhMiIsIm5iZiI6MTc0NDUxOTUyNS44OTIsInN1YiI6IjY3ZmI0MTY1ZDRjNDQ0YTFjYzlhMzFlZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.nM_wxYvMy9xrKkTmcJdpvN8TSjtIaoJ_h2cLFpzWIHc',
+        'Authorization': 'Bearer $_apiKey', // Usamos la variable de entorno aquí
       },
     );
 

@@ -67,6 +67,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - images/default-movie.png
     - images/icons/app_icon.png
 
